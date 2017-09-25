@@ -4,13 +4,11 @@ import { FormsModule } from '@angular/forms';
 
 import { SignInRoutingModule } from './sign-in-routing.module';
 import { SignInComponent } from './sign-in.component';
-import { ApiModule } from "../../api/api.module";
 
 @NgModule({
   imports: [
     CommonModule,
     SignInRoutingModule,
-    ApiModule,
     FormsModule
   ],
   declarations: [SignInComponent]

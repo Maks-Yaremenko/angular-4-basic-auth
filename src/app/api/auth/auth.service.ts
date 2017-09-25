@@ -4,18 +4,14 @@ import { HttpClient } from "@angular/common/http";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
-import { environment } from "../../../environments/environment";
-
 @Injectable()
 export class AuthService {
-
-  private baseUrl = `${environment.base}:${environment.port}`
 
   constructor(private http: HttpClient) { }
 
   signIn(creditionals: any): any {
 
-    return this.http.post(`${this.baseUrl}/sign-in`, creditionals)
+    return this.http.post('sign-in', creditionals)
       .map((response: any) => {
         return this.handleResponse(response);
       })
@@ -23,7 +19,7 @@ export class AuthService {
 
   signUp(creditionals: any): any {
 
-    return this.http.post(`${this.baseUrl}/sign-up`, creditionals)
+    return this.http.post('sign-up', creditionals)
       .map((response: any) => {
         return this.handleResponse(response);
       })
