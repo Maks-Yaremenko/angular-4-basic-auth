@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from "./app-routing";
+import { AuthGuard } from "./api/guard/auth.guard";
 
 @NgModule({
   declarations: [
@@ -12,7 +13,7 @@ import { AppRoutingModule } from "./app-routing";
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

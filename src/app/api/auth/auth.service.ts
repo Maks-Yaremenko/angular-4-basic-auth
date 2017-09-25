@@ -1,23 +1,40 @@
 import { Injectable } from '@angular/core';
-import { environment } from "../../../environments/environment";
-
-import 'rxjs/add/operator/toPromise';
 import { HttpClient } from "@angular/common/http";
-import { Headers } from "@angular/http";
+
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
+
+import { environment } from "../../../environments/environment";
 
 @Injectable()
 export class AuthService {
 
   private baseUrl = `${environment.base}:${environment.port}`
 
-  private headers = new Headers({'Content-type': 'application/json'});
-
   constructor(private http: HttpClient) { }
 
-  login(creditionals: any): any {
+  signIn(creditionals: any): any {
 
-    console.log(' in auth service ', `${this.baseUrl}/login`);
-    return this.http.post(`${this.baseUrl}/login`, creditionals)
+    return this.http.post(`${this.baseUrl}/sign-in`, creditionals)
+      .map((response: any) => {
+        return this.handleResponse(response);
+      })
+  }
+
+  signUp(creditionals: any): any {
+
+    return this.http.post(`${this.baseUrl}/sign-up`, creditionals)
+      .map((response: any) => {
+        return this.handleResponse(response);
+      })
+  }
+
+  handleResponse(data: any) {
+    if (data && data.token) {
+      localStorage.setItem('currentUser', JSON.stringify(data));
+    }
+
+    return data;
   }
 
 }

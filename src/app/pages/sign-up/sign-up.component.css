@@ -1,0 +1,14 @@
+.wrapper {
+  display: flex;
+  height: 100vh;
+}
+form {
+  margin: auto;
+}
+input {
+  margin-bottom: 10px;
+}
+.actions {
+  margin-top:10px;
+  text-align: center;
+}

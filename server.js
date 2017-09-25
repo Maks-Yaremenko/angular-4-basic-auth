@@ -5,61 +5,64 @@
     http = require('http'),
     os = require('os'),
 
-    ClusterServer = {
-      name: 'ClusterServer',
+  ClusterServer = {
+    name: 'ClusterServer',
 
-      cpus: os.cpus().length,
+    cpus: os.cpus().length,
 
-      autoRestart: false, // Restart threads on death?
+    autoRestart: false, // Restart threads on death?
 
-      start: function (server, port) {
-        var me = this,
-          i;
+    token: 'MzSU*wRfm<°Eql>|fVEv[s[Ib_h#-lMgZNg#9k/p-!Lbv#P!}uiq>@b3}MhZ8J/r',
 
-        if (cluster.isMaster) { // fork worker threads
-          for (i = 0; i < me.cpus; i += 1) {
-            console.log(me.name + ': starting worker thread #' + i);
+    start: function (server, port) {
+      var me = this,
+        i;
+
+      if (cluster.isMaster) { // fork worker threads
+        for (i = 0; i < me.cpus; i += 1) {
+          console.log(me.name + ': starting worker thread #' + i);
+          cluster.fork();
+        }
+
+        cluster.on('death', function (worker) {
+          // Log deaths!
+          console.log(me.name + ': worker ' + worker.pid + ' died.');
+          // If autoRestart is true, spin up another to replace it
+          if (me.autoRestart) {
+            console.log(me.name + ': Restarting worker thread...');
             cluster.fork();
           }
+        });
 
-          cluster.on('death', function (worker) {
-            // Log deaths!
-            console.log(me.name + ': worker ' + worker.pid + ' died.');
-            // If autoRestart is true, spin up another to replace it
-            if (me.autoRestart) {
-              console.log(me.name + ': Restarting worker thread...');
-              cluster.fork();
-            }
-          });
-
-        } else {
-          // Worker threads run the server
-          server.listen(port);
-          process.on('uncaughtException', onUncaughtException);
-        }
+      } else {
+        // Worker threads run the server
+        server.listen(port);
+        process.on('uncaughtException', onUncaughtException);
       }
-    },
+    }
+  },
 
-    helloWorldServer = http.createServer(function (req, res) {
+  helloWorldServer = http.createServer(function (req, res) {
 
-      res = corsMiddleware(res);
+    res = corsMiddleware(res);
 
-      if (req.method === 'OPTIONS') { return res.end('ok'); }
+    if (req.method === 'OPTIONS') { return res.end('ok'); }
 
-      // routing
-      switch(req.url) {
-        case '/login': loginHandler(req, res); break;
-        case '/favicon.ico': handleFavicon(req, res); break;
-        default : handleDefault(req, res);
-      }
+    // routing
+    switch(req.url) {
+      case '/sign-in': signInHandler(req, res); break;
+      case '/sign-up': signUpHandler(req, res); break;
+      case '/favicon.ico': handleFavicon(req, res); break;
+      default : handleDefault(req, res);
+    }
 
-    });
+  });
 
   function onUncaughtException(err) {
     console.log('ANY ERROR HANDLER', err);
   }
 
-  function loginHandler (req, res) {
+  function signInHandler (req, res) {
 
     var resolver = Math.random() < 0.5,
       status, payload;
@@ -69,7 +72,27 @@
       payload = { error: 'Wrong email or password' };
     } else {
       status = 200;
-      payload = { user: 'Maks', email: 'example@email.com' };
+      payload = { user: 'Maks', email: 'example@email.com', token: ClusterServer.token };
+    }
+
+    res.writeHead(status, {
+      'Content-type': 'application/json'
+    });
+
+    res.end(JSON.stringify(payload));
+  }
+
+  function signUpHandler (req, res) {
+
+    var resolver = Math.random() < 0.5,
+      status, payload;
+
+    if (resolver) {
+      status = 400;
+      payload = { error: 'User with this email already exist' };
+    } else {
+      status = 200;
+      payload = { user: 'Maks', email: 'example@email.com', token: ClusterServer.token };
     }
 
     res.writeHead(status, {
