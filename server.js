@@ -42,6 +42,10 @@
 
     helloWorldServer = http.createServer(function (req, res) {
 
+      res = corsMiddleware(res);
+
+      if (req.method === 'OPTIONS') { return res.end('ok'); }
+
       // routing
       switch(req.url) {
         case '/login': loginHandler(req, res); break;
@@ -56,11 +60,22 @@
   }
 
   function loginHandler (req, res) {
-    res.writeHead(200, {
+
+    var resolver = Math.random() < 0.5,
+      status, payload;
+
+    if (resolver) {
+      status = 400;
+      payload = { error: 'Wrong email or password' };
+    } else {
+      status = 200;
+      payload = { user: 'Maks', email: 'example@email.com' };
+    }
+
+    res.writeHead(status, {
       'Content-type': 'application/json'
     });
 
-    var payload = { user: 'Maks', email: 'example@email.com' };
     res.end(JSON.stringify(payload));
   }
 
@@ -79,6 +94,15 @@
 
     res.end('Not declared URL');
     console.log('helloWorldServer: Served no declared URL!');
+  }
+
+  function corsMiddleware(res) {
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    return res;
   }
 
   ClusterServer.name = 'helloWorldServer'; // rename ClusterServer instance
