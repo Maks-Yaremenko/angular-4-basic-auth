@@ -32,7 +32,7 @@ export class SignUpComponent implements OnInit {
   createForm() {
 
     this.signUpForm = this.fb.group({
-      userName: ['', Validators.required],
+      userName: '',
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4)]]
     })
