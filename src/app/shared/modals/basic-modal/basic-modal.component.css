@@ -16,4 +16,14 @@ h1 {
 .close_dialog__icon {
   line-height: 10px;
 }
+.mat-dialog-content {
+  height: 56%;
+}
 
+.modal_input {
+  width: 100%;
+}
+
+.modal_button {
+  margin: auto;
+}
