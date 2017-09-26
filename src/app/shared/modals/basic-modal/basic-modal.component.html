@@ -1,3 +1,17 @@
-<p>
-  basic-modal works!
-</p>
+<div md-dialog-title class="custom_dialog">
+  <h1>Hi {{data.name || 'Buddy!'}}</h1>
+  <button md-dialog-close md-fab color="primary" class="close_dialog">
+    <i class="material-icons close_dialog__icon">close</i>
+  </button>
+</div>
+
+<div md-dialog-content>
+  <p>What's your favorite animal?</p>
+  <md-form-field>
+    <input mdInput tabindex="1" [(ngModel)]="data.animal">
+  </md-form-field>
+</div>
+<div md-dialog-actions>
+  <button md-raised-button [md-dialog-close]="data.animal" tabindex="2">Ok</button>
+  <button md-raised-button (click)="onNoClick()" tabindex="-1">No Thanks</button>
+</div>

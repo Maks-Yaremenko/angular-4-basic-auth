@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { MdDialog } from "@angular/material";
+import { MdDialog } from '@angular/material';
 
-import { BasicModalComponent } from "../../shared/modals/basic-modal/basic-modal.component";
+import { BasicModalComponent } from '../../shared/modals/basic-modal/basic-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -15,11 +15,16 @@ export class HomeComponent {
 
   constructor(public dialog: MdDialog) {}
 
+  dialogConfig: any = {
+    width: '300px',
+    height: '350px'
+  };
+
   openDialog(): void {
-    let dialogRef = this.dialog.open(BasicModalComponent, {
-      width: '250px',
-      data: {name: this.name, animal: this.animal}
-    });
+
+    this.dialogConfig.data = {name: this.name, animal: this.animal};
+
+    const dialogRef = this.dialog.open(BasicModalComponent, this.dialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');

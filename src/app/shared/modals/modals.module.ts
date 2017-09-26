@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BasicModalComponent } from './basic-modal/basic-modal.component';
-import { MdDialogModule, MdFormFieldModule, MdInputModule } from "@angular/material";
-import { FormsModule } from "@angular/forms";
+import { MdButtonModule, MdDialogModule, MdFormFieldModule, MdIconModule, MdInputModule } from '@angular/material';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -10,8 +10,11 @@ import { FormsModule } from "@angular/forms";
     MdDialogModule,
     MdInputModule,
     MdFormFieldModule,
-    FormsModule
+    FormsModule,
+    MdButtonModule,
+    MdIconModule
   ],
-  declarations: [BasicModalComponent]
+  declarations: [BasicModalComponent],
+  entryComponents: [BasicModalComponent]
 })
 export class ModalsModule { }

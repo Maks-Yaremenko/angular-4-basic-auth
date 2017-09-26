@@ -1,0 +1,19 @@
+h1 {
+  display: inline-block;
+}
+
+.custom_dialog {
+  position: relative;
+}
+
+.close_dialog {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  right: 0;
+}
+
+.close_dialog__icon {
+  line-height: 10px;
+}
+

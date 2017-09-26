@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MdDialogRef, MD_DIALOG_DATA } from "@angular/material"
+import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-basic-modal',
