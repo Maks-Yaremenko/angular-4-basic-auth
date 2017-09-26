@@ -8,6 +8,5 @@ module.exports = function (app) {
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(cors());
   app.set('port', params.port);
-  app.set('demoToken', params.demoToken);
 
 }

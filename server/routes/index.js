@@ -1,8 +1,6 @@
-var auth = require('./auth');
-
 module.exports = function (app) {
 
-  auth(app);
+  require('./auth')(app);
 
   app.use(function(err, req, res, next) {
     console.log('WHOOPS SOMETHING WENT WRONG => ', err)

@@ -24,7 +24,7 @@ module.exports = {
 
     if (resolver) {
       status = 400;
-      payload = { error: 'Wrong email or password' };
+      payload = { error: 'User with provided email already exist' };
     } else {
       status = 200;
       payload = { user: 'Maks', email: 'example@email.com', token: params.demoToken };
